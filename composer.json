@@ -1,0 +1,17 @@
+{
+    "name": "mviot/getsion_automobile",
+    "description": "Application de  gestion d'un parc automobile",
+    "autoload": {
+        "psr-4": {
+            "Mviot\\GetsionAutomobile\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mathieu VIOT",
+            "email": "m.viot@outlook.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
