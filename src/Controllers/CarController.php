@@ -16,9 +16,28 @@ class CarController extends Controller
     {
         $repo = new CarRepository();
         $cars = $repo->findAll();
-        $this->render('cars/index',[
+        $this->render('car/index',[
             'cars'=>$cars,
             'appTitle'=>'Liste des voitures'
         ]);
     }
+    public function apiNew(): void
+    {
+        $repo = new CarRepository();
+        $ret = json_encode($repo->new($_POST));
+        echo $ret;
+    }
+    public function apiUpdate(): void
+    {
+        $repo = new CarRepository();
+        $ret = json_encode($repo->update($_POST));
+        echo $ret;
+    }
+    public function apiDelete(): void
+    {
+        $repo = new CarRepository();
+        $ret = json_encode($repo->delete($_POST['idNum']));
+        echo $ret;
+    }
+
 }

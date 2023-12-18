@@ -15,7 +15,7 @@ class CarRepository
     public function findAll(){
         $ret = [];
         try {
-            $dbh = new PDO('mysql:host=localhost;dbname='.DB_DATABASE, DB_USER, DB_PASS);
+            $dbh = new PDO('mysql:host='.DB_HOST.';dbname='.DB_DATABASE, DB_USER, DB_PASS);
         } catch (PDOException $e) {
             die("Une erreur est survenue".$e->getMessage());
         }
@@ -35,4 +35,75 @@ class CarRepository
         }
         return $ret;
     }
+    public function new($data):array{
+        extract($data);
+        $ret = [
+            'success'=>true,
+            'message'=>'Enregistré avec succès'
+        ];
+        try {
+            $dbh = new PDO('mysql:host='.DB_HOST.';dbname='.DB_DATABASE, DB_USER, DB_PASS);
+            $stmt = $dbh->prepare("INSERT INTO car (brand, model, id_num, gas, price, is_new, is_reserved) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bindParam(1, $brand);
+            $stmt->bindParam(2, $model);
+            $stmt->bindParam(3, $idNum);
+            $stmt->bindParam(4, $gas);
+            $stmt->bindParam(5, $price);
+            $stmt->bindParam(6, $isNew);
+            $stmt->bindParam(7, $isReserved);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            $ret = [
+                'success'=>false,
+                'message'=>$e->getMessage()
+            ];
+        }
+        return $ret;
+    }
+    public function update($data):array{
+        extract($data);
+        $ret = [
+            'success'=>true,
+            'message'=>'Modifié avec succès'
+        ];
+        try {
+            $dbh = new PDO('mysql:host='.DB_HOST.';dbname='.DB_DATABASE, DB_USER, DB_PASS);
+            $stmt = $dbh->prepare("UPDATE car
+             set brand = ?, model = ?, is_reserved = ?, gas = ?, price = ?, is_new = ? WHERE  id_num = ?");
+            $stmt->bindParam(1, $brand);
+            $stmt->bindParam(2, $model);
+            $stmt->bindParam(3, $isReserved);
+            $stmt->bindParam(4, $gas);
+            $stmt->bindParam(5, $price);
+            $stmt->bindParam(6, $isNew);
+            $stmt->bindParam(7, $idNum);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            $ret = [
+                'success'=>false,
+                'message'=>$e->getMessage()
+            ];
+        }
+        return $ret;
+    }
+    public function delete($idNum):array{
+        var_dump($idNum);
+        $ret = [
+            'success'=>true,
+            'message'=>'Supprimé avec succès'
+        ];
+        try {
+            $dbh = new PDO('mysql:host='.DB_HOST.';dbname='.DB_DATABASE, DB_USER, DB_PASS);
+            $stmt = $dbh->prepare("DELETE FROM car WHERE id_num = ?");
+            $stmt->bindParam(1, $idNum);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            $ret = [
+                'success'=>false,
+                'message'=>$e->getMessage()
+            ];
+        }
+        return $ret;
+    }
+
 }
