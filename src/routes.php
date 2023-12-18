@@ -1,8 +1,8 @@
 <?php
 
-use Mviot\GetsionAutomobile\Controllers\ProductController;
+use Mviot\GetsionAutomobile\Controllers\CarController;
 use Mviot\GetsionAutomobile\Router;
 
 $router = new Router();
-$router->addRoute('/', ProductController::class, 'index');
+$router->addRoute('/', CarController::class, 'index');
 return $router;
