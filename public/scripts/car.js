@@ -3,6 +3,8 @@ const btnRefresh = document.getElementById('btnRefresh');
 const carlist = document.getElementById('carList');
 const buttons = document.querySelectorAll('button');
 
+const formModal = new bootstrap.Modal(document.getElementById('formModal'))
+
 // Listners ---------------------------------------------------------
 carForm.addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -32,7 +34,7 @@ function getList(){
  * @param idNum
  */
 function getCar(idNum) {
-
+    formModal.show();
     let formData = new FormData();
     formData.append('idNum', idNum);
     formData.append('context', 'get');
@@ -69,6 +71,7 @@ function callApiWithForm(){
             const response = JSON.parse(res);
             resetForm();
             getList();
+            formModal.hide();
         })
         .catch((err)=>{
             console.log(err)
@@ -182,6 +185,8 @@ function getCell(data) {
 function getButton(classId, dataset) {
     let btn = document.createElement('button');
     btn.classList.add(classId);
+    btn.classList.add('btn');
+    btn.classList.add(classId === 'edit' ? 'btn-outline-primary' : 'btn-outline-danger');
     btn.dataset.id = dataset;
     btn.innerText = classId === 'edit' ? 'Edit' : 'Remove'
     btn.addEventListener('click', e=>btnClick(e));
@@ -194,9 +199,12 @@ function getButton(classId, dataset) {
  */
 function btnClick(e){
     if (e.target.classList.value.includes('delete')){
-        deleteCar(e.target.dataset.id)
+        let text = "Voulez vous vraiment supprimer?\nCette action est irréversible.";
+        if (confirm(text) == true) {
+            deleteCar(e.target.dataset.id);
+        }
     }
     if (e.target.classList.value.includes('edit')){
-        getCar(e.target.dataset.id)
+        getCar(e.target.dataset.id);
     }
 }
