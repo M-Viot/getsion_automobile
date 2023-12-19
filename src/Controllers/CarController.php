@@ -21,23 +21,35 @@ class CarController extends Controller
             'appTitle'=>'Liste des voitures'
         ]);
     }
-    public function apiNew(): void
+
+    public function api(): void
     {
+        $ret = [];
         $repo = new CarRepository();
-        $ret = json_encode($repo->new($_POST));
-        echo $ret;
-    }
-    public function apiUpdate(): void
-    {
-        $repo = new CarRepository();
-        $ret = json_encode($repo->update($_POST));
-        echo $ret;
-    }
-    public function apiDelete(): void
-    {
-        $repo = new CarRepository();
-        $ret = json_encode($repo->delete($_POST['idNum']));
-        echo $ret;
+        $context = $_POST['context'] ?? 'list';
+        switch ($context){
+            case 'list' :
+                $ret = $repo->findAllJson();
+                break;
+            case 'new' :
+                $ret = json_encode($repo->new($_POST));
+                break;
+            case 'update' :
+                $ret = json_encode($repo->update($_POST));
+                break;
+            case 'delete' :
+                $ret = json_encode($repo->delete($_POST['idNum']));
+                break;
+            case 'get' :
+                $ret = json_encode($repo->find($_POST['idNum']));
+                break;
+            default:
+                $ret = [
+                    'success' => false,
+                    'message' => 'Contexte inconnu'
+                ];
+        }
+        echo json_encode($ret);
     }
 
 }

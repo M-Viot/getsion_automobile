@@ -1,3 +1,4 @@
+
 <table>
     <thead>
         <tr>
@@ -11,7 +12,7 @@
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="carList">
     <?php foreach ($cars as $car): ?>
         <tr>
             <td><?=$car->getBrand()?></td>
@@ -22,15 +23,15 @@
             <td><?=$car->getIsNew()?'Neuf':'Occasion'?></td>
             <td><?=$car->getIsReserved()?'Oui':'Non'?></td>
             <td>
-                <a href="#">Edit</a>
-                <a href="#">Remove</a>
+                <button class="editBtn" data-id="<?=$car->getIdNum()?>">Edit</button>
+                <button class="deleteBtn" data-id="<?=$car->getIdNum()?>">Remove</button>
             </td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 
 </table>
-<form action="/new" method="post" id="carForm">
+<form action="/api" method="post" id="carForm">
     <!--    Marque-->
     <label for="brand">Marque</label>
     <input type="text" name="brand" id="brand">
@@ -43,8 +44,8 @@
     <!--    Carburant-->
     <label for="gas">Carburant</label>
     <select name="gas" id="gas">
-        <?php foreach (GAS_TYPE  as $key => $value):?>
-            <option value="<?=$key ?>"><?=$value ?></option>
+        <?php foreach (GAS_TYPE  as $value):?>
+            <option value="<?=$value ?>"><?=$value ?></option>
         <?php endforeach; ?>
     </select>
     <!--    Prix-->
@@ -62,5 +63,7 @@
         <option value=0>Non</option>
         <option value=1>Oui</option>
     </select>
+    <input type="hidden" name="update" id="update" value="false">
     <button type="submit">Enregistrer</button>
 </form>
+<script src="/public/scripts/car.js"></script>

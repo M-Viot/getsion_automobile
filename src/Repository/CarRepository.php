@@ -16,22 +16,53 @@ class CarRepository
         $ret = [];
         try {
             $dbh = new PDO('mysql:host='.DB_HOST.';dbname='.DB_DATABASE, DB_USER, DB_PASS);
+            $req = $dbh->query('SELECT * FROM car');
+            $data = $req->fetchall(PDO::FETCH_ASSOC);
+            foreach ($data as $item){
+                $ret[]=$this->dataToModel($item);
+            }
         } catch (PDOException $e) {
             die("Une erreur est survenue".$e->getMessage());
         }
-        $req = $dbh->query('SELECT * FROM car');
-        $data = $req->fetchall(PDO::FETCH_ASSOC);
-        foreach ($data as $item){
-            $car = new Car(
-                $item['brand'],
-                $item['model'],
-                $item['id_num'],
-                $item['gas'],
-                $item['price'],
-                $item['is_new'],
-                $item['is_reserved'],
-            );
-            $ret[]=$car;
+        return $ret;
+    }
+    public function findAllJson(): array
+    {
+        $ret = [
+            'success'=>true,
+            'message'=>'Liste Voitures',
+            'data'=>[]
+        ];
+        try {
+            $test = [];
+            $dbh = new PDO('mysql:host='.DB_HOST.';dbname='.DB_DATABASE, DB_USER, DB_PASS);
+            $req = $dbh->query('SELECT * FROM car');
+            $data = $req->fetchall(PDO::FETCH_ASSOC);
+            foreach ($data as $item){
+                $test[]=$item;
+            }
+            $ret['data']= $test;
+        } catch (PDOException $e) {
+            $ret['success']=false;
+            $ret['message']="Une erreur est survenue".$e->getMessage();
+        }
+        return $ret;
+    }
+    public function find($idNum): array
+    {
+        $ret = [
+            'success'=>true,
+            'message'=>'Voiture trouvée',
+            'data'=>null
+        ];
+        try {
+            $dbh = new PDO('mysql:host='.DB_HOST.';dbname='.DB_DATABASE, DB_USER, DB_PASS);
+            $req = $dbh->query('SELECT * FROM car WHERE id_num = '."'$idNum'");
+            $data = $req->fetch(PDO::FETCH_ASSOC);
+            $ret['data'] =  $data;
+        } catch (PDOException $e) {
+            $ret['success']=false;
+            $ret['message']="Une erreur est survenue".$e->getMessage();
         }
         return $ret;
     }
@@ -87,7 +118,6 @@ class CarRepository
         return $ret;
     }
     public function delete($idNum):array{
-        var_dump($idNum);
         $ret = [
             'success'=>true,
             'message'=>'Supprimé avec succès'
@@ -104,6 +134,18 @@ class CarRepository
             ];
         }
         return $ret;
+    }
+    private function dataToModel($item):Car
+    {
+        return new Car(
+            $item['brand'],
+            $item['model'],
+            $item['id_num'],
+            $item['gas'],
+            $item['price'],
+            $item['is_new'],
+            $item['is_reserved'],
+        );
     }
 
 }
