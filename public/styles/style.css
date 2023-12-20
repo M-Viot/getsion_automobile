@@ -1,0 +1,23 @@
+body{
+    background-color: #e2e2e2;
+}
+header{
+    box-shadow: 3px 3px 10px 3px #a2a2a2 ;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.alert{
+    position: absolute;
+    top: -200px;
+    left: 20px;
+    width: 300px;
+    transition: top 0.3s;
+}
+.showAlert{
+    top: 20px
+}
+.tableContainer{
+    max-height: 500px;
+    overflow-y: scroll;
+    border-radius: 0;
+}

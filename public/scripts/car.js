@@ -1,10 +1,12 @@
+import Message from "./message.js";
+
 const carForm = document.getElementById('carForm');
 const btnRefresh = document.getElementById('btnRefresh');
 const carlist = document.getElementById('carList');
 const buttons = document.querySelectorAll('button');
 
 const formModal = new bootstrap.Modal(document.getElementById('formModal'))
-
+const message = new Message();
 // Listners ---------------------------------------------------------
 carForm.addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -25,7 +27,7 @@ function getList(){
             updateCarList(res.data)
         })
         .catch((err)=>{
-            console.log(err)
+            message.send('danger',err.message);
         })
 }
 
@@ -40,14 +42,15 @@ function getCar(idNum) {
     formData.append('context', 'get');
     postData('/api',formData)
         .then((res)=>{
-            const response = JSON.parse(res);
-            if (response.success){
-                setForm(response.data)
+            if (res.success){
+                setForm(res.data)
+            }else{
+                message.send('danger',res.message);
             }
 
         })
         .catch((err)=>{
-            const response = JSON.parse(err);
+            message.send('danger',err.message);
         })
 }
 
@@ -65,16 +68,19 @@ function callApiWithForm(){
     formData.append('isNew', carForm.elements['isNew'].value);
     formData.append('isReserved', carForm.elements['isReserved'].value);
     formData.append('context',carForm.elements['update'].value === 'true' ? 'update' : 'new');
-    console.log(carForm.elements['update'].value)
     postData('/api',formData)
         .then((res)=>{
-            const response = JSON.parse(res);
-            resetForm();
-            getList();
-            formModal.hide();
+            if (res.success){
+                resetForm();
+                getList();
+                formModal.hide();
+                message.send('success',res.message);
+            }else{
+                message.send('danger',res.message);
+            }
         })
         .catch((err)=>{
-            console.log(err)
+            message.send('danger',err.message);
         })
 }
 
@@ -89,11 +95,15 @@ function deleteCar(idNum) {
     formData.append('context', 'delete');
     postData('/api',formData)
         .then((res)=>{
-            const response = JSON.parse(res);
-            getList();
+            if (res.success){
+                getList();
+                message.send('success',res.message);
+            }else{
+                message.send('danger',res.message);
+            }
         })
         .catch((err)=>{
-            console.log(err)
+            message.send('danger',err.message);
         })
 }
 
@@ -186,9 +196,10 @@ function getButton(classId, dataset) {
     let btn = document.createElement('button');
     btn.classList.add(classId);
     btn.classList.add('btn');
+    btn.classList.add('me-2');
     btn.classList.add(classId === 'edit' ? 'btn-outline-primary' : 'btn-outline-danger');
     btn.dataset.id = dataset;
-    btn.innerText = classId === 'edit' ? 'Edit' : 'Remove'
+    btn.innerText = classId === 'edit' ? 'Modifier' : 'Supprimer'
     btn.addEventListener('click', e=>btnClick(e));
     return btn;
 }

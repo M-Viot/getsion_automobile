@@ -32,16 +32,16 @@ class CarController extends Controller
                 $ret = $repo->findAllJson();
                 break;
             case 'new' :
-                $ret = json_encode($repo->new($_POST));
+                $ret = $repo->new($_POST);
                 break;
             case 'update' :
-                $ret = json_encode($repo->update($_POST));
+                $ret = $repo->update($_POST);
                 break;
             case 'delete' :
-                $ret = json_encode($repo->delete($_POST['idNum']));
+                $ret = $repo->delete($_POST['idNum']);
                 break;
             case 'get' :
-                $ret = json_encode($repo->find($_POST['idNum']));
+                $ret = $repo->find($_POST['idNum']);
                 break;
             default:
                 $ret = [

@@ -1,41 +1,46 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">
-                Ajouter
-            </button>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Marque</th>
-                    <th>Modèle</th>
-                    <th>Immatriculation</th>
-                    <th>Carburant</th>
-                    <th>Prix</th>
-                    <th>Vente</th>
-                    <th>Réservé</th>
-                    <th>&nbsp;</th>
-                </tr>
-                </thead>
-                <tbody id="carList">
-                <?php foreach ($cars as $car): ?>
+            <div class="d-flex justify-content-between mb-4">
+                <h2>Liste des vehicules</h2>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">
+                    Ajouter
+                </button>
+            </div>
+            <div class="card p-2 tableContainer">
+                <table class="table  table-hover" id="carTable">
+                    <thead>
                     <tr>
-                        <td><?=$car->getBrand()?></td>
-                        <td><?=$car->getModel()?></td>
-                        <td><?=$car->getIdNum()?></td>
-                        <td><?=$car->getGas()?></td>
-                        <td><?=$car->getPrice()?></td>
-                        <td><?=$car->getIsNew()?'Neuf':'Occasion'?></td>
-                        <td><?=$car->getIsReserved()?'Oui':'Non'?></td>
-                        <td>
-                            <button class="edit btn btn-outline-primary" data-id="<?=$car->getIdNum()?>">Edit</button>
-                            <button class="delete btn btn-outline-danger" data-id="<?=$car->getIdNum()?>">Remove</button>
-                        </td>
+                        <th>Marque</th>
+                        <th>Modèle</th>
+                        <th>Immatriculation</th>
+                        <th>Carburant</th>
+                        <th>Prix</th>
+                        <th>Vente</th>
+                        <th>Réservé</th>
+                        <th>&nbsp;</th>
                     </tr>
-                <?php endforeach; ?>
-                </tbody>
+                    </thead>
+                    <tbody id="carList">
+                    <?php foreach ($cars as $car): ?>
+                        <tr>
+                            <td><?=$car->getBrand()?></td>
+                            <td><?=$car->getModel()?></td>
+                            <td><?=$car->getIdNum()?></td>
+                            <td><?=$car->getGas()?></td>
+                            <td><?=$car->getPrice()?></td>
+                            <td><?=$car->getIsNew()?'Neuf':'Occasion'?></td>
+                            <td><?=$car->getIsReserved()?'Oui':'Non'?></td>
+                            <td class="d-flex justify-content-center">
+                                <button class="edit btn btn-outline-primary me-2" data-id="<?=$car->getIdNum()?>">Modifier</button>
+                                <button class="delete btn btn-outline-danger me-2" data-id="<?=$car->getIdNum()?>">Supprimer</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -82,12 +87,12 @@
                     <input type="hidden" name="update" id="update" value="false">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<script src="/public/scripts/car.js"></script>
+<script src="/public/scripts/car.js" type="module"></script>
