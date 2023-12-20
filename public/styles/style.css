@@ -21,3 +21,10 @@ header{
     overflow-y: scroll;
     border-radius: 0;
 }
+:required + label::after{
+    /*color: tomato;*/
+    /*font-weight: bold;*/
+    content: ' *';
+    color: tomato;
+    display: inline-block;
+}

@@ -8,10 +8,9 @@ use PDOException;
 
 class CarRepository
 {
-    public function __construct()
-    {
-
-    }
+    /**retourne la liste de tous les véhicules
+     * @return array|void
+     */
     public function findAll(){
         $ret = [];
         try {
@@ -27,6 +26,12 @@ class CarRepository
         return $ret;
     }
     // For Json return ----------------------------------------------------------------------------------
+
+    /**
+     * Retourne la liste de tout les véhicules dans un tableau
+     * avec informations nécessaires au front
+     * @return array
+     */
     public function findAllJson(): array
     {
         $ret = [
@@ -49,6 +54,13 @@ class CarRepository
         }
         return $ret;
     }
+
+    /**
+     * Retourne les informations du véhicule demandé
+     * avec informations nécessaires au front
+     * @param $idNum
+     * @return array
+     */
     public function find($idNum): array
     {
         $ret = [
@@ -67,6 +79,13 @@ class CarRepository
         }
         return $ret;
     }
+
+    /**
+     * Création d'un nouveau véhicule
+     * retourne informations nécessaires au front
+     * @param $data
+     * @return array
+     */
     public function new($data):array{
         extract($data);
         $ret = [
@@ -102,6 +121,12 @@ class CarRepository
         }
         return $ret;
     }
+    /**
+     * Modification d'un nouveau véhicule
+     * retourne informations nécessaires au front
+     * @param $data
+     * @return array
+     */
     public function update($data):array{
         $ret = [
             'success'=>true,
@@ -135,6 +160,13 @@ class CarRepository
         }
         return $ret;
     }
+
+    /**
+     * Suppression d'un nouveau véhicule
+     * retourne informations nécessaires au front
+     * @param $idNum
+     * @return array
+     */
     public function delete($idNum):array{
         $ret = [
             'success'=>true,
@@ -153,7 +185,13 @@ class CarRepository
         }
         return $ret;
     }
-    private function dataToModel($item):Car
+
+    /**
+     * Retourne d'une classe Car avec tableau fourni
+     * @param array $item
+     * @return Car
+     */
+    private function dataToModel(array $item):Car
     {
         return new Car(
             $item['brand'],
@@ -165,6 +203,12 @@ class CarRepository
             $item['is_reserved'],
         );
     }
+
+    /**
+     * Vérification de la présence des informations nécessaire
+     * @param $data
+     * @return bool
+     */
     private function validParams($data):bool
     {
         extract($data);

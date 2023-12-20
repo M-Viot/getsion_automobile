@@ -22,6 +22,10 @@ class CarController extends Controller
         ]);
     }
 
+    /**
+     * Retourne une Reponse JSON en fonction des paramètres fournis
+     * @return void
+     */
     public function api(): void
     {
         $ret = [];

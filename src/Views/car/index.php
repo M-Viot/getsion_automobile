@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col">
             <div class="d-flex justify-content-between mb-4">
-                <h2>Liste des vehicules</h2>
+                <h2>Liste des véhicules</h2>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">
                     Ajouter
                 </button>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="modal-body">
                     <!--    Marque-->
-                    <label for="brand"  class="form-label">Marque</label>
+                    <label for="brand" class="form-label">Marque<span style="color: tomato">*</span></label>
                     <input type="text" class="form-control" name="brand" id="brand" required>
                     <!--    Modèle-->
                     <label for="model" class="form-label">Modèle</label>
