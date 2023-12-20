@@ -6,7 +6,8 @@ Pour paramétrer le projet, modifier le fichier 'app.php' et renseigner les para
 - DB_DATABASE : Nom de la base à utiliser
 - DB_HOST : Hôte de la base de données
 
-Une fois le fichier sauvegardé, ouvrir un terminal à la racine du projet et lancer la commande suivante :<br>
+Une fois le fichier sauvegardé, ouvrir un terminal à la racine du projet et lancer les commandes suivantes :<br>
+``composer install``<br>
 ``php -S localhost:8000``
 
 Avant la première connexion, lancer le scprit d'initialisation :<br>
